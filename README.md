@@ -22,6 +22,6 @@ Para modificações maiores, por favor, me contate para discutirmos o que você 
 ## Créditos Finais
 Por favor, caso use a aplicação, não retire os devidos créditos.
 
-[Facebook](https://www.facebook.com/llucassdecarvalhoo)  
+[Facebook](https://www.facebook.com/llucasscarvalhoo)  
 [Lucas de Carvalho](https://www.lucasdecarvalho.com)  
 [contato@lucasdecarvalho.com](mailto:contato@lucasdecarvalho.com)
