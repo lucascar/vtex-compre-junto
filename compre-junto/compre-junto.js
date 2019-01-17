@@ -47,7 +47,6 @@ const mountProducts = async () => {
     });
 
     if (quantity[0] <= 0 || quantity[1] <= 0) {
-        
         if (document.querySelector('.compre-junto')) document.querySelector('.compre-junto').remove();
         return false;
     }
@@ -69,6 +68,7 @@ const mountProducts = async () => {
                 priceDe: products.p2.items[0].sellers[0].commertialOffer.ListPrice,
                 pricePor: products.p2.items[0].sellers[0].commertialOffer.Price
             },
+            productUrl: products.p2.link,
             productTams: {}
         }
     }
@@ -86,7 +86,7 @@ const mountProducts = async () => {
 
 const executeCP = async () => {
     let products = await mountProducts();
-    if (!products || isMobile) return false;
+    if (!products) return false;
     let finalPrice = 0;
 
     document.querySelector('.compre-junto').setAttribute('style', 'display: block;');
@@ -106,8 +106,10 @@ const executeCP = async () => {
 
         finalPrice += Object.values(products)[i].productPrices.pricePor;
     }
+    document.querySelector('.compre-junto .product-redirect').setAttribute('href', Object.values(products)[1].productUrl);
+    document.querySelector('.compre-junto .product-redirect').setAttribute('title', Object.values(products)[1].productName);
 
-    document.querySelector('.coprjt-total').innerHTML = getPrice(finalPrice);
+    document.querySelector('.coprjt-total').innerHTML = `R$ ${getPrice(finalPrice)}`;
     document.querySelector('.compre-junto .btn-compra').addEventListener('click', function () {
 
         let skuIds = {
@@ -115,8 +117,12 @@ const executeCP = async () => {
             prod2: document.querySelectorAll('.tams select')[1].value
         }
 
-        if (skuIds.prod1 == 'Tamanho' || skuIds.prod2 == 'Tamanho') alert('Por favor, selecione o tamanho!');
-        else window.location.href = "/checkout/cart/add?sc=1&sku=" + skuIds.prod1 + "&qty=1&seller=1" + "&sku=" + skuIds.prod2 + "&qty=1&seller=1";
+        if (skuIds.prod1 == 'Tamanho' || skuIds.prod2 == 'Tamanho') {
+            document.querySelector('.compre-junto .error-stk').style.display = "block";
+            return false;
+        }
+        document.querySelector('.compre-junto .error-stk').style.display = "none";
+        return window.location.href = "/checkout/cart/add?sc=1&sku=" + skuIds.prod1 + "&qty=1&seller=1" + "&sku=" + skuIds.prod2 + "&qty=1&seller=1";
     });
 }
 executeCP();
